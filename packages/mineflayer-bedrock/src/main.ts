@@ -20,6 +20,7 @@ bot.once('inject_allowed', () => {
     bot.defaultMovements = new mineflayerPathfinder.Movements(bot)
     bot.defaultMovements.canDig = false;
     bot.defaultMovements.canOpenDoors = false;
+    bot.defaultMovements.allowSprinting = false;
 
     console.log('loading pathFinder - follow plugin');
     bot.loadPlugin(pathFinderFollowPlugin);

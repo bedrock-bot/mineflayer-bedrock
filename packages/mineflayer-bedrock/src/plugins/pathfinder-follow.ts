@@ -3,7 +3,7 @@ import * as pathfinder from 'mineflayer-pathfinder'
 
 export function pathFinderFollowPlugin(bot: Bot, options: BotOptions) {
     bot._client.on('text', async (params) => {
-        if (params.type === 'chat')
+        if (params.type !== 'chat')
             return;
 
         let username = params.source_name;
