@@ -9,7 +9,7 @@ const bot = createBot({
     port: 19132,
     auth: 'offline',
     username: 'BedrockBot',
-    version: 'bedrock_1.21.60',
+    version: 'bedrock_1.21.70',
     profilesFolder: 'C:/git/profiles',
     offline: true,
 });

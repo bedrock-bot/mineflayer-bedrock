@@ -7,6 +7,7 @@
     "erasableSyntaxOnly": true,
     "verbatimModuleSyntax": true,
     "types": [
+      "src/protocol.d.ts",
       "src/types.d.ts",
     ]
   }

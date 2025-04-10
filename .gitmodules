@@ -13,3 +13,7 @@
 [submodule "packages/prismarine-registry"]
 	path = packages/prismarine-registry
 	url = https://github.com/bedrock-bot/prismarine-registry.git
+[submodule "packages/prismarine-chunk"]
+	path = packages/prismarine-chunk
+	url = https://github.com/bedrock-bot/prismarine-chunk.git
+	branch = bugfix/use-blocksByRuntimeId
