@@ -1,12 +1,9 @@
 import { Movements } from 'mineflayer-pathfinder'
 import { EventEmitter } from 'events'
-import { viewer } from 'prismarine-viewer';
 import { Vec3 } from 'vec3';
-import { world } from 'prismarine-world'
-import type { RaycastBlock } from 'prismarine-world/types/iterators.js';
-import type { Block } from "prismarine-block";
-import { type Client } from 'minecraft-protocol'
-import type { protocolTypes } from './protocol.js';
+import { RaycastBlock } from 'prismarine-world/types/iterators.js';
+import { Block } from "prismarine-block";
+import { protocolTypes } from './protocol.js';
 import * as pathfinder from 'mineflayer-pathfinder'
 
 interface Viewer extends EventEmitter<{ 'blockClicked': [RaycastBlock & Block, number, number] }> {
@@ -44,8 +41,5 @@ declare module 'minecraft-protocol' {
         on(event: 'start_game', listener: (params: protocolTypes.packet_start_game) => void): this;
         on(event: 'text', listener: (params: protocolTypes.packet_text) => void): this;
         on(event: 'spawn', listener: (params: protocolTypes.packet_respawn) => void): this;
-
-
     }
 }
-

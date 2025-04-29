@@ -5,10 +5,10 @@
     "module": "nodenext",
     "rewriteRelativeImportExtensions": true,
     "erasableSyntaxOnly": true,
-    "verbatimModuleSyntax": true,
-    "types": [
-      "src/protocol.d.ts",
-      "src/types.d.ts",
-    ]
-  }
+    "verbatimModuleSyntax": true
+  },  
+  "include": [
+    "src/**/*.ts",
+    "src/**/*.d.ts",
+  ],
 }

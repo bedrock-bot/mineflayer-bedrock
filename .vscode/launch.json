@@ -3,8 +3,7 @@
     // Hover to view descriptions of existing attributes.
     // For more information, visit: https://go.microsoft.com/fwlink/?linkid=830387
     "version": "0.2.0",
-    "configurations": [
-        
+    "configurations": [        
         {
             "type": "node",
             "request": "launch",
@@ -15,6 +14,21 @@
                 "**/node_modules/get-intrinsic/index.js"
             ],
             "program": "${workspaceFolder}\\packages\\mineflayer-bedrock\\src\\main.ts",
+            "runtimeArgs": [
+                "--experimental-strip-types",
+                "--disable-warning=ExperimentalWarning"
+            ]
+        },
+        {
+            "type": "node",
+            "request": "launch",
+            "name": "dump-packets",
+            "skipFiles": [
+                "<node_internals>/**",
+                "**/@azure/msal-node/node_modules/uuid/**",
+                "**/node_modules/get-intrinsic/index.js"
+            ],
+            "program": "${workspaceFolder}\\packages\\mineflayer-bedrock\\src\\tools\\dump-packets.ts",
             "runtimeArgs": [
                 "--experimental-strip-types",
                 "--disable-warning=ExperimentalWarning"

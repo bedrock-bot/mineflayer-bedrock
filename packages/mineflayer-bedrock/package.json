@@ -10,6 +10,7 @@
   },
   "license": "MIT",
   "dependencies": {
-    "mineflayer": "^4.0.0"
+    "mineflayer": "^4.0.0",
+    "csbinary": "^2.1.4"
   }
 }
