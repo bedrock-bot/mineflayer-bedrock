@@ -11,7 +11,7 @@ const bot = createBot({
     port: 19132,
     auth: 'offline',
     username: 'BedrockBot',
-    version: 'bedrock_1.21.70',
+    version: 'bedrock_1.21.80',
     profilesFolder: 'C:/git/profiles',
     offline: true,
 });
@@ -48,7 +48,8 @@ bot.once('inject_allowed', () => {
     bot.defaultMovements = new mineflayerPathfinder.Movements(bot)
     bot.defaultMovements.canDig = false;
     bot.defaultMovements.canOpenDoors = false;
-    bot.defaultMovements.allowSprinting = false;
+    bot.defaultMovements.allowSprinting = true;
+    bot.defaultMovements.allowParkour = true;
 
     console.log('loading pathFinder - follow plugin');
     bot.loadPlugin(pathFinderFollowPlugin);
