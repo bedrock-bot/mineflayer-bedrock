@@ -17,3 +17,6 @@
 	path = packages/prismarine-chunk
 	url = https://github.com/bedrock-bot/prismarine-chunk.git
 	branch = bugfix/use-blocksByRuntimeId
+[submodule "packages/bedrock-protocol"]
+	path = packages/bedrock-protocol
+	url = https://github.com/bedrock-bot/bedrock-protocol.git
