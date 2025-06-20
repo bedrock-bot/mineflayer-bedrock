@@ -1314,8 +1314,35 @@ declare namespace protocolTypes {
         hurt_reduced = "hurt_reduced",
         wind_charge_burst = "wind_charge_burst",
         imitate_drowned = "imitate_drowned",
+        imitate_creaking = "imitate_creaking",
         bundle_insert_failed = "bundle_insert_failed",
+        sponge_absorb = "sponge_absorb",
         unknow2 = "_",
+        block_creaking_heart_trail = "block_creaking_heart_trail",
+        creaking_heart_spawn = "creaking_heart_spawn",
+        activate = "activate",
+        deactivate = "deactivate",
+        freeze = "freeze",
+        unfreeze = "unfreeze",
+        open = "open",
+        open_long = "open_long",
+        close = "close",
+        close_long = "close_long",
+        imitate_phantom = "imitate_phantom",
+        imitate_zoglin = "imitate_zoglin",
+        imitate_guardian = "imitate_guardian",
+        imitate_ravager = "imitate_ravager",
+        imitate_pillager = "imitate_pillager",
+        place_in_water = "place_in_water",
+        state_change = "state_change",
+        imitate_happy_ghast = "imitate_happy_ghast",
+        unique_generic = "unique_generic",
+        record_tears = "record_tears",
+        the_end_light_flash = "the_end_light_flash",
+        lead_leash = "lead_leash",
+        lead_unleash = "lead_unleash",
+        lead_break = "lead_break",
+        unsaddle = "unsaddle",
         armor_crack_wolf = "armor_crack_wolf",
         armor_break_wolf = "armor_break_wolf",
         armor_repair_wolf = "armor_repair_wolf",
@@ -1499,8 +1526,8 @@ declare namespace protocolTypes {
         yaw_limit_max: number | undefined;
         audio_listener: number | undefined;
         player_effects: boolean | undefined;
-        align_target_and_camera_forward: boolean | undefined;
         aim_assist: any | undefined;
+        control_scheme: any | undefined;
     }
 
     export enum DisconnectFailReason {
@@ -1621,7 +1648,11 @@ declare namespace protocolTypes {
         conn_not_logged_in = "conn_not_logged_in",
         conn_client_signalling_error = "conn_client_signalling_error",
         sub_client_login_disabled = "sub_client_login_disabled",
-        deep_link_trying_to_open_demo_world_while_signed_in = "deep_link_trying_to_open_demo_world_while_signed_in"
+        deep_link_trying_to_open_demo_world_while_signed_in = "deep_link_trying_to_open_demo_world_while_signed_in",
+        async_join_task_denied = "async_join_task_denied",
+        realms_timeline_required = "realms_timeline_required",
+        guest_withough_host = "guest_withough_host",
+        failed_to_join_experience = "failed_to_join_experience"
     }
 
     export interface FullContainerName {
@@ -1634,6 +1665,292 @@ declare namespace protocolTypes {
         invalid = "invalid"
     }
 
+    /**
+     * BiomeDefinition represents a biome definition in the game. This can be a vanilla biome or a completely
+     * custom biome.
+     */
+    export interface BiomeDefinition {
+        /** NameIndex represents the index of the biome name in the string list from BiomeDefinitionListPacket. */
+        name_index: number;
+        biome_id: number | undefined;
+        /** Temperature is the temperature of the biome, used for weather, biome behaviours and sky colour. */
+        temperature: number;
+        /** Downfall is the amount that precipitation affects colours and block changes. */
+        downfall: number;
+        /** RedSporeDensity is the density of red spore precipitation visuals. */
+        red_spore_density: number;
+        /** BlueSporeDensity is the density of blue spore precipitation visuals. */
+        blue_spore_density: number;
+        /** AshDensity is the density of ash precipitation visuals. */
+        ash_density: number;
+        /** WhiteAshDensity is the density of white ash precipitation visuals. */
+        white_ash_density: number;
+        /** Depth ... */
+        depth: number;
+        /** Scale ... */
+        scale: number;
+        /** MapWaterColour is an ARGB value for the water colour on maps in the biome. */
+        map_water_colour: number;
+        /** Rain is true if the biome has rain, false if it is a dry biome. */
+        rain: boolean;
+        tags: any | undefined;
+        chunk_generation: BiomeChunkGeneration | undefined;
+    }
+
+    /**
+     * BiomeChunkGeneration represents the information required for the client to generate chunks itself
+     * to create the illusion of a larger render distance.
+     */
+    export interface BiomeChunkGeneration {
+        climate: BiomeClimate | undefined;
+        consolidated_features: any | undefined;
+        mountain_parameters: BiomeMountainParameters | undefined;
+        surface_material_adjustments: any | undefined;
+        surface_materials: BiomeSurfaceMaterial | undefined;
+        /** HasSwampSurface is true if the biome has a swamp surface. */
+        has_swamp_surface: boolean;
+        /** HasFrozenOceanSurface is true if the biome has a frozen ocean surface. */
+        has_frozen_ocean_surface: boolean;
+        /** HasEndSurface is true if the biome has an end surface. */
+        has_end_surface: boolean;
+        mesa_surface: BiomeMesaSurface | undefined;
+        capped_surface: BiomeCappedSurface | undefined;
+        overworld_rules: BiomeOverworldRules | undefined;
+        multi_noise_rules: BiomeMultiNoiseRules | undefined;
+        legacy_rules: any | undefined;
+    }
+
+    /**
+     * BiomeClimate represents the climate of a biome, mainly for ambience but also defines certain behaviours.
+     */
+    export interface BiomeClimate {
+        /** Temperature is the temperature of the biome, used for weather, biome behaviours and sky colour. */
+        temperature: number;
+        /** Downfall is the amount that precipitation affects colours and block changes. */
+        downfall: number;
+        /** RedSporeDensity is the density of red spore precipitation visuals. */
+        red_spore_density: number;
+        /** BlueSporeDensity is the density of blue spore precipitation visuals. */
+        blue_spore_density: number;
+        /** AshDensity is the density of ash precipitation visuals. */
+        ash_density: number;
+        /** WhiteAshDensity is the density of white ash precipitation visuals. */
+        white_ash_density: number;
+        /** SnowAccumulationMin is the minimum amount of snow that can accumulate in the biome, every 0.125 is another layer of snow. */
+        snow_accumulation_min: number;
+        /** SnowAccumulationMax is the maximum amount of snow that can accumulate in the biome, every 0.125 is another layer of snow. */
+        snow_accumulation_max: number;
+    }
+
+    /**
+     * BiomeMountainParameters specifies the parameters for a mountain biome.
+     */
+    export interface BiomeMountainParameters {
+        /** SteepBlock is the runtime ID of the block to use for steep slopes. */
+        steep_block: number;
+        /** NorthSlopes is true if the biome has north slopes. */
+        north_slopes: boolean;
+        /** SouthSlopes is true if the biome has south slopes. */
+        south_slopes: boolean;
+        /** WestSlopes is true if the biome has west slopes. */
+        west_slopes: boolean;
+        /** EastSlopes is true if the biome has east slopes. */
+        east_slopes: boolean;
+        /** TopSlideEnabled is true if the biome has top slide enabled. */
+        top_slide_enabled: boolean;
+    }
+
+    /**
+     * BiomeSurfaceMaterial specifies the materials to use for the surface layers of the biome.
+     */
+    export interface BiomeSurfaceMaterial {
+        /** TopBlock is the runtime ID of the block to use for the top layer. */
+        top_block: number;
+        /** MidBlock is the runtime ID to use for the middle layers. */
+        mid_block: number;
+        /** SeaFloorBlock is the runtime ID to use for the sea floor. */
+        sea_floor_block: number;
+        /** FoundationBlock is the runtime ID to use for the foundation layers. */
+        foundation_block: number;
+        /** SeaBlock is the runtime ID to use for the sea layers. */
+        sea_block: number;
+        /** SeaFloorDepth is the depth of the sea floor, in blocks. */
+        sea_floor_depth: number;
+    }
+
+    /**
+     * BiomeMesaSurface specifies the materials to use for the mesa biome.
+     */
+    export interface BiomeMesaSurface {
+        /** ClayMaterial is the runtime ID of the block to use for clay layers. */
+        clay_material: number;
+        /** HardClayMaterial is the runtime ID of the block to use for hard clay layers. */
+        hard_clay_material: number;
+        /** BrycePillars is true if the biome has bryce pillars, which are tall spire-like structures. */
+        bryce_pillars: boolean;
+        /** HasForest is true if the biome has a forest. */
+        has_forest: boolean;
+    }
+
+    /**
+     * BiomeCappedSurface specifies the materials to use for the capped surface of a biome, such as in the Nether.
+     */
+    export interface BiomeCappedSurface {
+        /** FloorBlocks is a list of runtime IDs to use for the floor blocks. */
+        floor_blocks: any;
+        /** CeilingBlocks is a list of runtime IDs to use for the ceiling blocks. */
+        ceiling_blocks: any;
+        sea_block: number | undefined;
+        foundation_block: number | undefined;
+        beach_block: number | undefined;
+    }
+
+    /**
+     * BiomeMultiNoiseRules specifies the rules for multi-noise biomes, which are biomes that are defined by
+     * multiple noise parameters instead of just temperature and humidity.
+     */
+    export interface BiomeMultiNoiseRules {
+        /** Temperature is the temperature level of the biome. */
+        temperature: number;
+        /** Humidity is the humidity level of the biome. */
+        humidity: number;
+        /** Altitude is the altitude level of the biome. */
+        altitude: number;
+        /** Weirdness is the weirdness level of the biome. */
+        weirdness: number;
+        /** Weight is the weight of the biome, with a higher weight being more likely to be selected. */
+        weight: number;
+    }
+
+    /**
+     * BiomeWeight defines the weight for a biome, used for weighted randomness.
+     */
+    export interface BiomeWeight {
+        /** Biome is the index of the biome name in the string list. */
+        biome: number;
+        /** Weight is the weight of the biome, with a higher weight being more likely to be selected. */
+        weight: number;
+    }
+
+    /**
+     * BiomeTemperatureWeight defines the weight for a temperature, used for weighted randomness.
+     */
+    export interface BiomeTemperatureWeight {
+        /** Temperature is the temperature that can be selected. */
+        temperature: number;
+        /** Weight is the weight of the temperature, with a higher weight being more likely to be selected. */
+        weight: number;
+    }
+
+    /**
+     * BiomeConsolidatedFeature represents a feature that is consolidated into a single feature for the biome.
+     */
+    export interface BiomeConsolidatedFeature {
+        /** Scatter defines how the feature is scattered in the biome. */
+        scatter: BiomeScatterParameter;
+        /** Feature is the index of the feature's name in the string list. */
+        feature: number;
+        /** Identifier is the index of the feature's identifier in the string list. */
+        identifier: number;
+        /** Pass is the index of the feature's pass in the string list. */
+        pass: number;
+        /** CanUseInternal is true if the feature can use internal features. */
+        can_use_internal: boolean;
+    }
+
+    export interface BiomeScatterParameter {
+        /** Coordinates is a list of coordinate rules to scatter the feature within. */
+        coordinates: any;
+        /** EvaluationOrder is the order in which the coordinates are evaluated. */
+        evaluation_order: any;
+        /** ChancePercentType is the type of expression operation to use for the chance percent. */
+        chance_percent_type: number;
+        /** ChancePercent is the index of the chance expression in the string list. */
+        chance_percent: number;
+        /** ChanceNumerator is the numerator of the chance expression. */
+        chance_numerator: number;
+        /** ChanceDenominator is the denominator of the chance expression. */
+        chance_denominator: number;
+        /** IterationsType is the type of expression operation to use for the iterations. */
+        iterations_type: number;
+        /** Iterations is the index of the iterations expression in the string list. */
+        iterations: number;
+    }
+
+    /**
+     * BiomeCoordinate specifies coordinate rules for where features can be scattered in the biome.
+     */
+    export interface BiomeCoordinate {
+        /** MinValueType is the type of expression operation to use for the minimum value. */
+        min_value_type: number;
+        /** MinValue is the index of the minimum value expression in the string list. */
+        min_value: number;
+        /** MaxValueType is the type of expression operation to use for the maximum value. */
+        max_value_type: number;
+        /** MaxValue is the index of the maximum value expression in the string list. */
+        max_value: number;
+        /** GridOffset is the offset of the grid, used for fixed grid and jittered grid distributions. */
+        grid_offset: number;
+        /** GridStepSize is the step size of the grid, used for fixed grid and jittered grid distributions. */
+        grid_step_size: number;
+        /** Distribution is the type of distribution to use for the coordinate. */
+        distribution: any;
+    }
+
+    /**
+     * BiomeElementData are set rules to adjust the surface materials of the biome.
+     */
+    export interface BiomeElementData {
+        /** NoiseFrequencyScale is the frequency scale of the noise used to adjust the surface materials. */
+        noise_frequency_scale: number;
+        /** NoiseLowerBound is the minimum noise value required to be selected. */
+        noise_lower_bound: number;
+        /** NoiseUpperBound is the maximum noise value required to be selected. */
+        noise_upper_bound: number;
+        /** HeightMinType is the type of expression operation to use for the minimum height. */
+        height_min_type: number;
+        /** HeightMin is the index of the minimum height expression in the string list. */
+        height_min: number;
+        /** HeightMaxType is the type of expression operation to use for the maximum height. */
+        height_max_type: number;
+        /** HeightMax is the index of the maximum height expression in the string list. */
+        height_max: number;
+        /** AdjustedMaterials is the materials to use for the surface layers of the biome if selected. */
+        adjusted_materials: BiomeSurfaceMaterial;
+    }
+
+    /**
+     * BiomeOverworldRules specifies a list of transformation rules to apply to different parts of the overworld.
+     */
+    export interface BiomeOverworldRules {
+        /** HillsTransformations is a list of weighted biome transformations to apply to hills. */
+        hills_transformations: any;
+        /** MutateTransformations is a list of weighted biome transformations to apply to mutated biomes. */
+        mutate_transformations: any;
+        /** RiverTransformations is a list of weighted biome transformations to apply to rivers. */
+        river_transformations: any;
+        /** ShoreTransformations is a list of weighted biome transformations to apply to shores. */
+        shore_transformations: any;
+        /** PreHillsEdgeTransformations is a list of conditional transformations to apply to the edges of hills. */
+        pre_hills_edge_transformations: any;
+        /** PostShoreEdgeTransformations is a list of conditional transformations to apply to the edges of shores. */
+        post_shore_edge_transformations: any;
+        /** ClimateTransformations is a list of weighted temperature transformations to apply to the biome's climate. */
+        climate_transformations: any;
+    }
+
+    /**
+     * BiomeConditionalTransformation is the legacy method of transforming biomes.
+     */
+    export interface BiomeConditionalTransformation {
+        /** WeightedBiomes is a list of biomes and their weights. */
+        weighted_biomes: any;
+        /** ConditionJSON is an index of the condition JSON data in the string list. */
+        condition_json: number;
+        /** MinPassingNeighbours is the minimum number of neighbours that must pass the condition for the transformation to be applied. */
+        min_passing_neighbours: number;
+    }
+
     export interface mcpe_packet {
         name: any;
         params: any;
@@ -1642,13 +1959,14 @@ declare namespace protocolTypes {
     export interface packet_login {
         /** Protocol version (Big Endian!) */
         protocol_version: number;
+        /** The structure of the login tokens has changed in 1.21.90. The encapsulated data is now a JSON object with a stringified `Certificate`. */
         tokens: any;
     }
 
     export interface LoginTokens {
-        /** JSON array of JWT data: contains the display name, UUID and XUID It should be signed by the Mojang public key */
+        /** JSON array of JWT data: contains the display name, UUID and XUID It should be signed by the Mojang public key For 1.21.90+, the 'identity' field is a Little-Endian length-prefixed JSON-encoded string. This JSON object must contain a 'Certificate' key, whose value is a *stringified* JSON object that holds the actual JWT 'chain' array. */
         identity: LittleString;
-        /** Skin related data */
+        /** JWT containing skin and other client data. */
         client: LittleString;
     }
 
@@ -1688,6 +2006,8 @@ declare namespace protocolTypes {
         has_addons: boolean;
         /** If scripting is enabled. */
         has_scripts: boolean;
+        /** ForceDisableVibrantVisuals specifies if the vibrant visuals feature should be forcibly disabled on the server. If set to true, the server will ensure that vibrant visuals are not enabled, regardless of the client's settings. */
+        disable_vibrant_visuals: boolean;
         world_template: any;
         /** A list of resource packs that the client needs to download before joining the server. The order of these resource packs is not relevant in this packet. It is however important in the Resource Pack Stack packet. */
         texture_packs: TexturePackInfos;
@@ -1720,12 +2040,9 @@ declare namespace protocolTypes {
      */
     export interface packet_text {
         /** TextType is the type of the text sent. When a client sends this to the server, it should always be TextTypeChat. If the server sends it, it may be one of the other text types above. */
-        type: 'raw' | 'chat' | 'translation' | 'popup' | 'jukebox_popup' | 'tip' | 'system' | 'whisper' | 'announcement' | 'json_whisper' | 'json' | 'json_announcement';
+        type: any;
         /** NeedsTranslation specifies if any of the messages need to be translated. It seems that where % is found in translatable text types, these are translated regardless of this bool. Translatable text types include TextTypeTip, TextTypePopup and TextTypeJukeboxPopup. */
         needs_translation: boolean;
-        source_name?: string;
-        message?: string;
-        parameters?: string[]
         undefined: any;
         /** The XUID of the player who sent this message. */
         xuid: string;
@@ -1734,7 +2051,8 @@ declare namespace protocolTypes {
         /** FilteredMessage is a filtered version of Message with all the profanity removed. The client will use this over Message if this field is not empty and they have the "Filter Profanity" setting enabled. */
         filtered_message: string;
     }
-     /**
+
+    /**
      * Sent by the server to update the current time client-side. The client actually advances time
      * client-side by itself, so this packet does not need to be sent each tick. It is merely a means
      * of synchronizing time between server and client.
@@ -1764,7 +2082,7 @@ declare namespace protocolTypes {
         biome_name: string;
         /** Dimension is the ID of the dimension that the player spawns in. It is a value from 0-2, with 0 being the overworld, 1 being the nether and 2 being the end. */
         dimension: any;
-        /** Generator is the generator used for the world. It is a value from 0-4, with 0 being old limited worlds, 1 being infinite worlds, 2 being flat worlds, 3 being nether worlds and 4 being end worlds. A value of 0 will actually make the client stop rendering chunks you send beyond the world limit. */
+        /** Generator is the generator used for the world. It is a value from 0-4, with 0 being old limited worlds, 1 being infinite worlds, 2 being flat worlds, 3 being nether worlds and 4 being end worlds. A value of 0 will actually make the client stop rendering chunks you send beyond the world limit. As of 1.21.80, protocol.PlayerMovementModeServer is the minimum requirement for MovementType. */
         generator: number;
         /** The world game mode that a player gets when it first spawns in the world. It is shown in the settings and is used if the Player Gamemode is set to 5. */
         world_gamemode: GameMode;
@@ -1851,6 +2169,7 @@ declare namespace protocolTypes {
         server_identifier: string;
         world_identifier: string;
         scenario_identifier: string;
+        owner_identifier: string;
         /** A base64 encoded world ID that is used to identify the world. */
         level_id: string;
         /** The name of the world that the player is joining. Note that this field shows up above the player list for the rest of the game session, and cannot be changed. Setting the server name to this field is recommended. */
@@ -1859,11 +2178,9 @@ declare namespace protocolTypes {
         premium_world_template_id: string;
         /** Specifies if the world was a trial world, meaning features are limited and there is a time limit on the world. */
         is_trial: boolean;
-        /** MovementType specifies the way the server handles player movement. Available options are packet.AuthoritativeMovementModeClient, packet.AuthoritativeMovementModeServer and packet.AuthoritativeMovementModeServerWithRewind, where server the server authoritative types result in the client sending PlayerAuthInput packets instead of MovePlayer packets and the rewind mode requires sending the tick of movement and several actions.  Specifies if the client or server is authoritative over the movement of the player, meaning it controls the movement of it. # https://github.com/pmmp/PocketMine-MP/blob/a43b46a93cb127f037c879b5d8c29cda251dd60c/src/pocketmine/network/mcpe/protocol/types/PlayerMovementType.php#L26 */
-        movement_authority: any;
-        /** RewindHistorySize is the amount of history to keep at maximum if MovementType is packet.AuthoritativeMovementModeServerWithRewind. */
+        /** RewindHistorySize is the amount of history to keep at maximum */
         rewind_history_size: number;
-        /** ServerAuthoritativeBlockBreaking specifies if block breaking should be sent through packet.PlayerAuthInput or not. This field is somewhat redundant as it is always enabled if MovementType is packet.AuthoritativeMovementModeServer or packet.AuthoritativeMovementModeServerWithRewind */
+        /** ServerAuthoritativeBlockBreaking specifies if block breaking should be sent through packet.PlayerAuthInput or not. This field is somewhat redundant as it is always enabled if server authoritative movement is enabled. */
         server_authoritative_block_breaking: boolean;
         current_tick: bigint;
         enchantment_seed: number;
@@ -2008,6 +2325,9 @@ declare namespace protocolTypes {
         tick: number;
     }
 
+    /**
+     * Removed in 1.21.80
+     */
     export interface packet_rider_jump {
         jump_strength: number;
     }
@@ -2387,6 +2707,9 @@ declare namespace protocolTypes {
         nbt: nbt;
     }
 
+    /**
+     * Removed in 1.21.80
+     */
     export interface packet_player_input {
         motion_x: number;
         motion_z: number;
@@ -3192,8 +3515,10 @@ declare namespace protocolTypes {
      * functions for biomes.
      */
     export interface packet_biome_definition_list {
-        /** SerialisedBiomeDefinitions is a network NBT serialised compound of all definitions of biomes that are available on the server. */
-        nbt: nbt;
+        /** BiomeDefinitions is a list of biomes that are available on the server. */
+        biome_definitions: any;
+        /** StringList is a makeshift dictionary implementation Mojang created to try and reduce the size of the overall packet. It is a list of common strings that are used in the biome definitions. */
+        string_list: any;
     }
 
     /**
@@ -3215,6 +3540,8 @@ declare namespace protocolTypes {
         is_baby_mob: boolean;
         /** DisableRelativeVolume specifies if the sound should be played relatively or not. If set to true, the sound will have full volume, regardless of where the Position is, whereas if set to false, the sound's volume will be based on the distance to Position. */
         is_global: boolean;
+        /** EntityUniqueID is the unique ID of a source entity. The unique ID is a value that remains consistent across different sessions of the same world, but most servers simply fill the runtime ID of the entity out for this field. */
+        entity_unique_id: bigint;
     }
 
     /**
@@ -3554,6 +3881,17 @@ declare namespace protocolTypes {
     export type ArmorDamageType = any; // TODO: Implement type: bitflags
 
     /**
+     * CodeBuilder is an Education Edition packet sent by the server to the client to open the URL to a Code
+     * Builder (websocket) server.
+     */
+    export interface packet_code_builder {
+        /** URL is the url to the Code Builder (websocket) server. */
+        url: string;
+        /** ShouldOpenCodeBuilder specifies if the client should automatically open the Code Builder app. If set to true, the client will attempt to use the Code Builder app to connect to and interface with the server running at the URL above. */
+        should_open_code_builder: boolean;
+    }
+
+    /**
      * UpdatePlayerGameType is sent by the server to change the game mode of a player. It is functionally
      * identical to the SetPlayerGameType packet.
      */
@@ -3609,6 +3947,17 @@ declare namespace protocolTypes {
         /** TrackingID is the ID of the PositionTrackingDBClientRequest packet that this packet was in response to. The tracking ID is also present as the 'id' field in the SerialisedData field. */
         tracking_id: number;
         nbt: nbt;
+    }
+
+    /**
+     * DebugInfo is a packet sent by the server to the client. It does not seem to do anything when sent to the
+     * normal client in 1.16.
+     */
+    export interface packet_debug_info {
+        /** PlayerUniqueID is the unique ID of the player that the packet is sent to. */
+        player_unique_id: number;
+        /** Data is the debug data. */
+        data: Buffer;
     }
 
     /**
@@ -3829,6 +4178,14 @@ declare namespace protocolTypes {
         photo_id: number;
     }
 
+    export enum HeightMapDataType {
+        no_data = "no_data",
+        has_data = "has_data",
+        too_high = "too_high",
+        too_low = "too_low",
+        all_copied = "all_copied"
+    }
+
     export interface SubChunkEntryWithoutCaching {
         dx: number;
         dy: number;
@@ -3836,8 +4193,10 @@ declare namespace protocolTypes {
         result: any;
         /** Payload has the terrain data, if the chunk isn't empty and caching is disabled */
         payload: Buffer;
-        heightmap_type: any;
+        heightmap_type: HeightMapDataType;
         heightmap: any;
+        render_heightmap_type: HeightMapDataType;
+        render_heightmap: any;
     }
     export interface SubChunkEntryWithoutCaching extends Array<SubChunkEntryWithoutCaching> {
         countType: number;
@@ -3850,8 +4209,10 @@ declare namespace protocolTypes {
         result: any;
         /** Payload has the terrain data, if the chunk isn't empty and caching is disabled */
         payload: any;
-        heightmap_type: any;
+        heightmap_type: HeightMapDataType;
         heightmap: any;
+        render_heightmap_type: HeightMapDataType;
+        render_heightmap: any;
         blob_id: bigint;
     }
     export interface SubChunkEntryWithCaching extends Array<SubChunkEntryWithCaching> {
@@ -4166,6 +4527,9 @@ declare namespace protocolTypes {
         remove_target: boolean | undefined;
     }
 
+    /**
+     * Removed in 1.21.80
+     */
     export interface packet_compressed_biome_definitions {
         /** via PMMP: This packet is only sent by the server when client-side chunk generation is enabled in vanilla. It contains NBT data for biomes, similar to the BiomeDefinitionListPacket, but with a large amount of extra data for client-side chunk generation.  The data is compressed with a cursed home-brewed compression format, and it's a miracle it even works. */
         raw_payload: Buffer;
@@ -4341,6 +4705,7 @@ declare namespace protocolTypes {
 
     /**
      * set_movement_authority is sent by the server to the client to change its movement mode.
+     * This packet has been deprecated and as of protocol 818 (1.21.90) has been removed from the game.
      */
     export interface packet_set_movement_authority {
         /** movement_authority specifies the way the server handles player movement. Available options are PlayerMovementModeClient, PlayerMovementModeServer and PlayerMovementModeServerWithRewind, where the server authoritative types result in the client sending PlayerAuthInput packets instead of MovePlayer packets and the rewind mode requires sending the tick of movement and several actions. */
@@ -4376,5 +4741,52 @@ declare namespace protocolTypes {
         health: number;
         hunger: number;
         entity_runtime_id: number;
+        is_flying: boolean;
     }
+
+    export interface packet_update_client_options {
+        graphics_mode: any | undefined;
+    }
+
+    /**
+     * PlayerVideoCapturePacket is sent by the server to start or stop video recording for a player. This packet
+     * only works on development builds and has no effect on retail builds. When recording, the client will save
+     * individual frames to '/LocalCache/minecraftpe' in the format specified below.
+     */
+    export interface packet_player_video_capture {
+        /** action is the action that the client should perform. This is one of the constants defined above. */
+        action: any;
+        undefined: any;
+    }
+
+    /**
+     * PlayerUpdateEntityOverrides is sent by the server to modify an entity's properties individually.
+     */
+    export interface packet_player_update_entity_overrides {
+        /** EntityRuntimeID is the runtime ID of the entity. The runtime ID is unique for each world session, and entities are generally identified in packets using this runtime ID. */
+        runtime_id: number;
+        /** PropertyIndex is the index of the property to modify. The index is unique for each property of an entity. */
+        property_index: number;
+        /** Type is the type of action to perform with the property. It is one of the constants above. */
+        type: any;
+        value: any;
+    }
+
+    export interface packet_player_location {
+        /** Type is the action that is being performed. It is one of the constants above. */
+        type: any;
+        entity_unique_id: number;
+        position: any;
+    }
+
+    export interface packet_clientbound_controls_scheme {
+        /** Scheme is the scheme that the client should use. It is one of the constants above. */
+        scheme: any;
+    }
+
+    export interface packet_server_script_debug_drawer {
+        shapes: any;
+    }
+
+
 }
