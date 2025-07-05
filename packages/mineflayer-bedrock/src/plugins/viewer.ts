@@ -17,11 +17,11 @@ export function viewerPlugin(bot: Bot, options: BotOptions) {
     };
 
     const proxy = createProxy(bot);
-    prismarineViewer.mineflayer(proxy, { port: 3000, firstPerson: false, viewDistance: 3, });
+    prismarineViewer.mineflayer(proxy, { port: 3000, firstPerson: false, viewDistance: 5, });
 
     bot.on('path_update', (r) => {
         const nodesPerTick = (r.visitedNodes * 50 / r.time).toFixed(2)
-        console.log(`I can get there in ${r.path.length} moves. Computation took ${r.time.toFixed(2)} ms (${nodesPerTick} nodes/tick). ${r.status}`)
+        //console.log(`I can get there in ${r.path.length} moves. Computation took ${r.time.toFixed(2)} ms (${nodesPerTick} nodes/tick). ${r.status}`)
         const path = [bot.entity.position.offset(0, 0.5, 0)]
         for (const node of r.path) {
             path.push(new Vec3(node.x, node.y + 0.5, node.z))

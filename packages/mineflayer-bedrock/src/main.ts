@@ -11,7 +11,7 @@ const bot = createBot({
     port: 19132,
     auth: 'offline',
     username: 'BedrockBot',
-    version: 'bedrock_1.21.90',
+    version: 'bedrock_1.21.93',
     profilesFolder: 'C:/git/profiles',
     offline: true,
 });
@@ -50,6 +50,7 @@ bot.once('inject_allowed', () => {
     bot.defaultMovements.canOpenDoors = false;
     bot.defaultMovements.allowSprinting = true;
     bot.defaultMovements.allowParkour = true;
+    bot.defaultMovements.allowFreeMotion = true;
 
     console.log('loading pathFinder - follow plugin');
     bot.loadPlugin(pathFinderFollowPlugin);
