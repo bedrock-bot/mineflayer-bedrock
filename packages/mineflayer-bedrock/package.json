@@ -10,7 +10,8 @@
   },
   "license": "MIT",
   "dependencies": {
+    "csbinary": "^2.1.4",
     "mineflayer": "^4.0.0",
-    "csbinary": "^2.1.4"
+    "prismarine-physics": "^1.10.0"
   }
 }

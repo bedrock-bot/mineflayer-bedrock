@@ -4,7 +4,7 @@ import { PackentDumpWriter } from './utils/packet-dump-writter.ts';
 main();
 
 function main(): void {
-    const version: Version = '1.21.70' as any;
+    const version: Version = '1.21.100' as any;
     const relay = new Relay({
         version,
         host: '0.0.0.0',
@@ -15,10 +15,11 @@ function main(): void {
             host: '127.0.0.1',
             port: 19132
         }
+        profilesFolder: 'C:/git/profiles',
     });
 
     relay.on('connect', player => {
-        const writter = new PackentDumpWriter('1.21.70');
+        const writter = new PackentDumpWriter('1.21.100');
         player.on('clientbound', (_, des) => {
             writter.writeClientbound(des.fullBuffer)
         })

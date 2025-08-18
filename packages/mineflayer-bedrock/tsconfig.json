@@ -6,7 +6,8 @@
     "rewriteRelativeImportExtensions": true,
     "erasableSyntaxOnly": true,
     "verbatimModuleSyntax": true,
-    "strict": true
+    "strict": true,
+    "resolveJsonModule": true
   },  
   "include": [
     "src/**/*.ts",

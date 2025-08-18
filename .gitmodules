@@ -20,3 +20,6 @@
 [submodule "packages/bedrock-protocol"]
 	path = packages/bedrock-protocol
 	url = https://github.com/bedrock-bot/bedrock-protocol.git
+[submodule "packages/node-minecraft-assets"]
+	path = packages/node-minecraft-assets
+	url = https://github.com/bedrock-bot/node-minecraft-assets.git

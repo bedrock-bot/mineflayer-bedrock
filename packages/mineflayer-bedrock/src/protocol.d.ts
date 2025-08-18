@@ -1226,7 +1226,7 @@ declare namespace protocolTypes {
         goat_bass_7 = "goat_bass_7",
         goat_bass_8 = "goat_bass_8",
         goat_bass_9 = "goat_bass_9",
-        unknow5 = "_",
+        unknow5_ = "_",
         unknow6 = "_",
         unknow7 = "_",
         ImitateWarden = "ImitateWarden",
@@ -1343,6 +1343,7 @@ declare namespace protocolTypes {
         lead_unleash = "lead_unleash",
         lead_break = "lead_break",
         unsaddle = "unsaddle",
+        equip_copper = "equip_copper",
         armor_crack_wolf = "armor_crack_wolf",
         armor_break_wolf = "armor_break_wolf",
         armor_repair_wolf = "armor_repair_wolf",
@@ -1672,7 +1673,8 @@ declare namespace protocolTypes {
     export interface BiomeDefinition {
         /** NameIndex represents the index of the biome name in the string list from BiomeDefinitionListPacket. */
         name_index: number;
-        biome_id: number | undefined;
+        /** BiomeID is the biome ID. This is optional and can be empty. */
+        biome_id: number;
         /** Temperature is the temperature of the biome, used for weather, biome behaviours and sky colour. */
         temperature: number;
         /** Downfall is the amount that precipitation affects colours and block changes. */
@@ -1951,6 +1953,41 @@ declare namespace protocolTypes {
         min_passing_neighbours: number;
     }
 
+    export enum EaseType {
+        Linear = "Linear",
+        Spring = "Spring",
+        InQuad = "InQuad",
+        OutQuad = "OutQuad",
+        InOutQuad = "InOutQuad",
+        InCubic = "InCubic",
+        OutCubic = "OutCubic",
+        InOutCubic = "InOutCubic",
+        InQuart = "InQuart",
+        OutQuart = "OutQuart",
+        InOutQuart = "InOutQuart",
+        InQuint = "InQuint",
+        OutQuint = "OutQuint",
+        InOutQuint = "InOutQuint",
+        InSine = "InSine",
+        OutSine = "OutSine",
+        InOutSine = "InOutSine",
+        InExpo = "InExpo",
+        OutExpo = "OutExpo",
+        InOutExpo = "InOutExpo",
+        InCirc = "InCirc",
+        OutCirc = "OutCirc",
+        InOutCirc = "InOutCirc",
+        InBounce = "InBounce",
+        OutBounce = "OutBounce",
+        InOutBounce = "InOutBounce",
+        InBack = "InBack",
+        OutBack = "OutBack",
+        InOutBack = "InOutBack",
+        InElastic = "InElastic",
+        OutElastic = "OutElastic",
+        InOutElastic = "InOutElastic"
+    }
+
     export interface mcpe_packet {
         name: any;
         params: any;
@@ -2193,6 +2230,7 @@ declare namespace protocolTypes {
         world_template_id: uuid;
         client_side_generation: boolean;
         block_network_ids_are_hashes: boolean;
+        tick_death_systems: boolean;
         server_controlled_sound: boolean;
     }
 
@@ -4048,7 +4086,8 @@ declare namespace protocolTypes {
         position: vec3f;
         /** Delta is the change in position compared to what the client sent as its position at that specific tick. */
         delta: vec3f;
-        vehicle_rotation: any;
+        rotation: vec2f;
+        angular_velocity: number | undefined;
         /** OnGround specifies if the player was on the ground at the time of the tick below. */
         on_ground: boolean;
         /** Tick is the tick of the movement which was corrected by this packet. */
@@ -4525,6 +4564,7 @@ declare namespace protocolTypes {
         fade: any | undefined;
         target: any | undefined;
         remove_target: boolean | undefined;
+        fov: any | undefined;
     }
 
     /**
@@ -4677,6 +4717,7 @@ declare namespace protocolTypes {
         target_mode: any;
         /** Action is the action that should be performed with the aim assist. This is one of the constants above. */
         action: any;
+        show_debug_render: boolean;
     }
 
     /**
@@ -4787,6 +4828,5 @@ declare namespace protocolTypes {
     export interface packet_server_script_debug_drawer {
         shapes: any;
     }
-
 
 }
